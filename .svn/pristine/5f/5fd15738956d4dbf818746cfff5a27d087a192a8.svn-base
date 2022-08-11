@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">云驾智联</string>
+
+    <string name="common_numbers">1234567890</string>
+    <string name="common_numbers_tm">1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz</string>
+
+    <string name="login_mobile_hide">请输入手机号</string>
+    <string name="login_pwd_hide">请输入密码</string>
+    <string name="login_get_code">获取验证码</string>
+    <string name="login_mobile_code_hide">请输入验证码</string>
+    <string name="login_button_str">登录</string>
+
+    <string name="nav_home_">首页</string>
+
+    <string name="nav_choose_car">选车</string>
+</resources>

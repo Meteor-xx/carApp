@@ -1,0 +1,143 @@
+package download;
+
+import android.os.Environment;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.concurrent.TimeUnit;
+
+import download.coreprogress.DownloadStateCallback;
+import download.coreprogress.ProgressHelper;
+import download.coreprogress.ProgressUIListener;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+import okhttp3.ResponseBody;
+import okio.BufferedSink;
+import okio.BufferedSource;
+import okio.Okio;
+
+/**
+ * Created by liman on 2018/4/12.
+ * Description:
+ */
+
+public class DownloadHelper {
+    private static OkHttpClient client = new OkHttpClient.Builder().readTimeout(60, TimeUnit.SECONDS).writeTimeout(60, TimeUnit.SECONDS).connectTimeout(60, TimeUnit.SECONDS).build();
+    private String filePath;
+    private String fileUrl;
+    private int currentProgress;
+    private DownloadStateCallback downloadStateCallback;
+    private Call downloadCall;
+    private ResponseBody responseBody;
+
+    public void startDownload(final String _filePath, String url, final DownloadStateCallback _downloadStateCallback) {
+        this.filePath = _filePath;
+        this.fileUrl = url;
+        this.downloadStateCallback = _downloadStateCallback;
+        File file = new File(filePath + ".tmp");
+        file.getParentFile().mkdirs();
+        File new_file = new File(filePath);
+        if (file.exists()) {
+            file.delete();
+        }
+        if (new_file.exists()) {
+            new_file.delete();
+        }
+
+        try {
+            file.createNewFile();
+            new_file.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Request.Builder builder = new Request.Builder();
+        builder.url(url);
+        builder.get();
+        downloadCall = client.newCall(builder.build());
+        downloadCall.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Logger.log("TAG", "=============onFailure===============");
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                Logger.log("TAG", "=============onResponse===============");
+                Logger.log("TAG", "request headers:" + response.request().headers());
+                Logger.log("TAG", "response headers:" + response.headers());
+
+                //your original response body
+                ResponseBody body = response.body();
+                //wrap the original response body with progress
+                responseBody = ProgressHelper.withProgress(body, new ProgressUIListener() {
+
+                    //if you don't need this method, don't override this methd. It isn't an abstract method, just an empty method.
+                    @Override
+                    public void onUIProgressStart(long totalBytes) {
+                        super.onUIProgressStart(totalBytes);
+                        Logger.log("TAG", "onUIProgressStart:" + totalBytes);
+                        if (downloadStateCallback != null) {
+                            downloadStateCallback.onUIProgressStart(totalBytes);
+                        }
+                    }
+
+                    @Override
+                    public void onUIProgressChanged(long numBytes, long totalBytes, float percent, float speed) {
+                        Logger.log("TAG", "=============start===============");
+                        Logger.log("TAG", "numBytes:" + numBytes);
+                        Logger.log("TAG", "totalBytes:" + totalBytes);
+                        Logger.log("TAG", "percent:" + percent);
+                        Logger.log("TAG", "speed:" + speed);
+                        Logger.log("TAG", "============= end ===============");
+                        currentProgress = (int) (100 * percent);
+//                        startTimer();
+                        if (downloadStateCallback != null) {
+                            downloadStateCallback.onUIProgressChanged(currentProgress);
+                        }
+                    }
+
+                    //if you don't need this method, don't override this methd. It isn't an abstract method, just an empty method.
+                    @Override
+                    public void onUIProgressFinish() {
+                        super.onUIProgressFinish();
+                        File file = new File(filePath + ".tmp");
+                        File new_file = new File(filePath);
+                        if (file.exists()) {
+                            file.renameTo(new_file);
+                        }
+//                        MyApplication.getApplication().stopDownloadServer();
+//                        stopTimer();
+//                        doInstall();
+                        if (downloadStateCallback != null) {
+                            downloadStateCallback.onUIProgressFinish();
+                        }
+                    }
+
+                });
+                //read the body to file
+                BufferedSource source = responseBody.source();
+
+                File outFile = new File(filePath + ".tmp");
+                outFile.delete();
+                outFile.getParentFile().mkdirs();
+                outFile.createNewFile();
+                BufferedSink sink = Okio.buffer(Okio.sink(outFile));
+                source.readAll(sink);
+                sink.flush();
+                source.close();
+            }
+        });
+
+    }
+
+    public void close(){
+        if(responseBody != null){
+            responseBody.close();
+            responseBody = null;
+        }
+    }
+}

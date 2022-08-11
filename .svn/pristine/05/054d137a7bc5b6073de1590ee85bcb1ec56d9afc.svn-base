@@ -1,0 +1,17 @@
+package download;
+
+import android.util.Log;
+
+/**
+ * Created by liman on 2017/8/12.
+ */
+
+public class Logger {
+    public static void log(String tag, String msg) {
+        Log.i(tag, "EBike -msg-->" + msg);
+    }
+
+    public static void i(String tag,String msg){
+        Log.i(tag, "msg-->" + msg);
+    }
+}

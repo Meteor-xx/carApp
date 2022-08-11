@@ -1,0 +1,61 @@
+package yunkeiot.com.carapp.ui.main;
+
+import yunkeiot.com.carapp.R;
+import yunkeiot.com.carapp.ui.base.CABaseActivity;
+import yunkeiot.com.carapp.ui.main.fragment.CAHomeFragment;
+
+import android.Manifest;
+import android.os.Bundle;
+import android.widget.RadioGroup;
+
+public class CAMainActivity extends CABaseActivity {
+    public static String TAG_HOME = "TAG_HOME", TAG_NAV = "TAG_NAV", TAG_LOCATION = "TAG_LOCATION", TAG_MINE = "TAG_MINE";
+    private CAHomeFragment homeFragment;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+    }
+
+    /**
+     * onCreat: super.onCreat -> setContentView -> setStatusBarTranslucent -> initFragment -> setUpView -> setUpData
+     */
+    @Override
+    public void setUpViews(){
+        hideNavHeaderBack();
+        //setNavMenuVisible(true,R.mipmap.main_message);
+        checkAppPermission(Manifest.permission.ACCESS_FINE_LOCATION,1001);
+        initFragments();
+    }
+    @Override
+    public void setUpData(){
+
+    }
+
+    private void initFragments() {
+        addFragment(R.id.container, homeFragment = new CAHomeFragment(), TAG_HOME);
+        commit();
+        setCurrentFragmentByTag(TAG_HOME);
+        setNavTitle(R.string.nav_home_);
+
+        RadioGroup radioGroup = (RadioGroup) findViewById(R.id.mainButtonGroup);
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId) {
+                    case R.id.button1:
+                        setCurrentFragmentByTag(TAG_HOME);
+                        setNavTitle(R.string.nav_home_);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
+    }
+
+
+
+
+}

@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/color_24272c"
+    android:fillViewport="true"
+    android:orientation="vertical"
+    android:scrollbars="none">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <LinearLayout
+            android:id="@+id/mineUserInfo"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/px160dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/px30dp"
+            android:paddingTop="@dimen/px10dp"
+            android:paddingRight="@dimen/px30dp"
+            android:background="@drawable/selector_choose_color_item">
+            <com.qmuiteam.qmui.widget.QMUIRadiusImageView
+                android:id="@+id/headPhoto"
+                android:layout_width="@dimen/px120dp"
+                android:layout_height="@dimen/px120dp"
+                android:src="@mipmap/icon_default_headicon"
+                app:qmui_border_color="?attr/qmui_config_color_gray_6"
+                app:qmui_border_width="1px"
+                app:qmui_is_circle="true"
+                app:qmui_selected_border_color="?attr/qmui_config_color_gray_4"
+                app:qmui_selected_border_width="1px"
+                app:qmui_selected_mask_color="?attr/qmui_config_color_gray_8" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/px20dp"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/mineUserName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:text="用户名"
+                    android:textColor="@color/color_white"
+                    android:textSize="@dimen/px34sp" />
+
+                <TextView
+                    android:id="@+id/mineHasAuthor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/px8dp"
+                    android:background="@drawable/shape_auther_bg_n"
+                    android:paddingLeft="@dimen/px8dp"
+                    android:paddingRight="@dimen/px8dp"
+                    android:text="未认证"
+                    android:textColor="@color/color_white"
+                    android:textSize="@dimen/px26sp" />
+            </LinearLayout>
+
+        </LinearLayout>
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/px30dp"
+            android:background="@color/color_24272c" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/color_303433"
+            android:orientation="horizontal"
+            android:paddingTop="@dimen/px50dp"
+            android:paddingBottom="@dimen/px50dp">
+
+            <TextView
+                android:id="@+id/mineCars"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableTop="@mipmap/user_car"
+                android:drawablePadding="@dimen/px30dp"
+                android:gravity="center_horizontal"
+                android:text="我的车库"
+                android:textColor="@color/color_white"
+                android:textSize="@dimen/px32sp" />
+
+            <TextView
+                android:id="@+id/mineMessage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableTop="@mipmap/user_message"
+                android:drawablePadding="@dimen/px30dp"
+                android:gravity="center_horizontal"
+                android:text="我的消息"
+                android:textColor="@color/color_white"
+                android:textSize="@dimen/px32sp" />
+
+            <TextView
+                android:id="@+id/mineNews"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableTop="@mipmap/user_news"
+                android:drawablePadding="@dimen/px30dp"
+                android:gravity="center_horizontal"
+                android:text="今日头条"
+                android:textColor="@color/color_white"
+                android:textSize="@dimen/px32sp" />
+
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/px30dp"
+            android:background="@color/color_24272c" />
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/px30dp"
+            android:background="@color/color_303433" />
+
+        <TextView
+            android:id="@+id/mineReflect"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/px100dp"
+            android:background="@drawable/selector_choose_color_item"
+            android:drawableRight="@mipmap/icon_right_arrow"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/px30dp"
+            android:paddingRight="@dimen/px30dp"
+            android:text="反馈"
+            android:textColor="@color/color_white"
+            android:textSize="@dimen/px30sp" />
+        <include layout="@layout/line_view" />
+        <TextView
+            android:id="@+id/mineAbout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/px100dp"
+            android:background="@drawable/selector_choose_color_item"
+            android:drawableRight="@mipmap/icon_right_arrow"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/px30dp"
+            android:paddingRight="@dimen/px30dp"
+            android:text="关于"
+            android:textColor="@color/color_white"
+            android:textSize="@dimen/px30sp" />
+        <include layout="@layout/line_view" />
+        <TextView
+            android:id="@+id/mineSettings"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/px100dp"
+            android:background="@drawable/selector_choose_color_item"
+            android:drawableRight="@mipmap/icon_right_arrow"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/px30dp"
+            android:paddingRight="@dimen/px30dp"
+            android:text="设置"
+            android:textColor="@color/color_white"
+            android:textSize="@dimen/px30sp" />
+        <include layout="@layout/line_view" />
+
+    </LinearLayout>
+</ScrollView>

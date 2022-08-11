@@ -1,0 +1,79 @@
+package yunkeiot.com.carapp.ui.adapter;
+
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+import java.util.List;
+
+import yunkeiot.com.carapp.R;
+import yunkeiot.com.carapp.entity.CATrailsEntity;
+
+public class CATrailsListAdapter extends MyBaseAdapter {
+    private Context mContext;
+    private List<CATrailsEntity.DataBean.DataItem> dataList;
+    private String lastDate;
+
+    public CATrailsListAdapter(Context context){
+        super(context);
+        mContext = context;
+    }
+
+    public void setData(List<CATrailsEntity.DataBean.DataItem> dataList) {
+        this.dataList = dataList;
+        notifyDataSetChanged();
+    }
+    @Override
+    public int getCount() {
+        return this.dataList == null ? 0 : this.dataList.size();
+    }
+
+    @Override
+    public CATrailsEntity.DataBean.DataItem getItem(int i) {
+        return this.dataList.get(i);
+    }
+
+    @Override
+    public long getItemId(int i) {
+        return super.getItemId(i);
+    }
+
+    @Override
+    public View getView(int i, View view, ViewGroup viewGroup) {
+        ViewHolder viewHolder;
+        if (view == null){
+            view = LayoutInflater.from(mContext).inflate(R.layout.trails_item_layout,viewGroup,false);
+            viewHolder = new ViewHolder();
+            viewHolder.tvStartTime = (TextView)view.findViewById(R.id.travel_start_time);
+            viewHolder.startAddress = (TextView)view.findViewById(R.id.travel_sAddress);
+            viewHolder.endAddress = (TextView)view.findViewById(R.id.travel_eAddress);
+            viewHolder.mileage = (TextView)view.findViewById(R.id.travel_miles);
+            viewHolder.avgSpeed = (TextView)view.findViewById(R.id.avgSpeed);
+            viewHolder.maxSpeed = (TextView)view.findViewById(R.id.maxSpeed);
+            viewHolder.driverTime = (TextView)view.findViewById(R.id.driver_time);
+            view.setTag(viewHolder);
+        }else {
+            viewHolder =(ViewHolder) view.getTag();
+        }
+        CATrailsEntity.DataBean.DataItem item = getItem(i);
+        viewHolder.tvStartTime.setText(item.getTravelStartTime());
+        viewHolder.startAddress.setText(item.getStartAddress());
+        viewHolder.endAddress.setText(item.getEndAddress());
+        viewHolder.mileage.setText(item.getMileage());
+        viewHolder.driverTime.setText(item.getDriverTime());
+        viewHolder.avgSpeed.setText(item.getAvgSpeed());
+        viewHolder.maxSpeed.setText(item.getMaxSpeed());
+        return view;
+    }
+    class ViewHolder {
+        TextView tvStartTime;
+        TextView startAddress;
+        TextView endAddress;
+        TextView mileage;
+        TextView driverTime;
+        TextView avgSpeed;
+        TextView maxSpeed;
+    }
+
+}

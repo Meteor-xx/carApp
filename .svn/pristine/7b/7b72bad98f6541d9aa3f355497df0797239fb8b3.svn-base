@@ -1,0 +1,177 @@
+package yunkeiot.com.carapp.entity;
+
+import java.util.List;
+
+import yunkeiot.com.carapp.entity.Data.BaseEntity;
+
+public class CATrailsEntity extends BaseEntity {
+    private DataBean data;
+
+    public DataBean getData() {
+        return data;
+    }
+
+    public void setData(DataBean data) {
+        this.data = data;
+    }
+    public static class DataBean{
+        private int currentPage;
+        private int pageSize;
+        private int totalPages;
+        private int totalRows;
+        private List<DataItem> datas;
+
+        public int getCurrentPage() {
+            return currentPage;
+        }
+
+        public void setCurrentPage(int currentPage) {
+            this.currentPage = currentPage;
+        }
+
+        public int getPageSize() {
+            return pageSize;
+        }
+
+        public void setPageSize(int pageSize) {
+            this.pageSize = pageSize;
+        }
+
+        public int getTotalPages() {
+            return totalPages;
+        }
+
+        public void setTotalPages(int totalPages) {
+            this.totalPages = totalPages;
+        }
+
+        public int getTotalRows() {
+            return totalRows;
+        }
+
+        public void setTotalRows(int totalRows) {
+            this.totalRows = totalRows;
+        }
+
+        public List<DataItem> getDatas() {
+            return datas;
+        }
+
+        public void setDatas(List<DataItem> datas) {
+            this.datas = datas;
+        }
+        public static class DataItem{
+            private String plateNumber;
+            private String deviceId;
+            private String travelId;
+            private String mileage;
+            private String driverTime;
+            private String avgSpeed;
+            private String maxSpeed;
+            private String travelStartTime;
+            private String travelEndTime;
+            private String startAddress;
+            private String endAddress;
+//            private String plateNumber = "1";
+//            private String deviceId = "1";
+//            private String travelId = "1";
+//            private String mileage = "11km";
+//            private String driverTime = "00:25:10";
+//            private String avgSpeed = "11km/h";
+//            private String maxSpeed = "11km/h";
+//            private String travelStartTime = "1";
+//            private String travelEndTime = "1";
+//            private String startAddress = "河南省郑州市中原区";
+//            private String endAddress = "河南省郑州市中原区";
+
+            public String getPlateNumber() {
+                return plateNumber;
+            }
+
+            public void setPlateNumber(String plateNumber) {
+                this.plateNumber = plateNumber;
+            }
+
+            public String getDeviceId() {
+                return deviceId;
+            }
+
+            public void setDeviceId(String deviceId) {
+                this.deviceId = deviceId;
+            }
+
+            public String getTravelId() {
+                return travelId;
+            }
+
+            public void setTravelId(String travelId) {
+                this.travelId = travelId;
+            }
+
+            public String getMileage() {
+                return mileage;
+            }
+
+            public void setMileage(String mileage) {
+                this.mileage = mileage;
+            }
+
+            public String getDriverTime() {
+                return driverTime;
+            }
+
+            public void setDriverTime(String driverTime) {
+                this.driverTime = driverTime;
+            }
+
+            public String getAvgSpeed() {
+                return avgSpeed;
+            }
+
+            public void setAvgSpeed(String avgSpeed) {
+                this.avgSpeed = avgSpeed;
+            }
+
+            public String getMaxSpeed() {
+                return maxSpeed;
+            }
+
+            public void setMaxSpeed(String maxSpeed) {
+                this.maxSpeed = maxSpeed;
+            }
+
+            public String getTravelStartTime() {
+                return travelStartTime;
+            }
+
+            public void setTravelStartTime(String travelStartTime) {
+                this.travelStartTime = travelStartTime;
+            }
+
+            public String getTravelEndTime() {
+                return travelEndTime;
+            }
+
+            public void setTravelEndTime(String travelEndTime) {
+                this.travelEndTime = travelEndTime;
+            }
+
+            public String getStartAddress() {
+                return startAddress;
+            }
+
+            public void setStartAddress(String startAddress) {
+                this.startAddress = startAddress;
+            }
+
+            public String getEndAddress() {
+                return endAddress;
+            }
+
+            public void setEndAddress(String endAddress) {
+                this.endAddress = endAddress;
+            }
+        }
+    }
+
+}

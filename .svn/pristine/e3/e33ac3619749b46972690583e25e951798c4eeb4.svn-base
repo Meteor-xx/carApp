@@ -1,0 +1,42 @@
+package com.http.engine;
+
+import com.google.gson.annotations.SerializedName;
+
+/**
+ * Created by man.li on 2018/1/17.
+ */
+
+public class BaseEntity {
+    private int state;
+    private String message;
+
+    /**
+     * 判断请求成功与否，这里只能告诉请求者，此次请求是否成功，而不能用做判断是否正常
+     *
+     * @return
+     */
+    public boolean isSuccesses() {
+        if (0 == state) {
+            return true;
+        }
+        return false;
+    }
+
+    public int getCode() {
+        return state;
+    }
+
+    public void setCode(int code) {
+        this.state = code;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String msg) {
+        this.message = msg;
+    }
+
+
+}

@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_24272c"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:paddingBottom="@dimen/px40dp"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:paddingTop="@dimen/px30dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/px80dp"
+                android:layout_marginLeft="@dimen/px30dp">
+
+                <TextView
+                    style="@style/BindcarsStyle"
+                    android:layout_width="@dimen/px160dp"
+                    android:layout_height="match_parent"
+                    android:text="@string/cars_bind_name" />
+
+                <EditText
+                    android:id="@+id/carNickName"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="@dimen/px100dp"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:drawableRight="@mipmap/icon_modify"
+                    android:imeOptions="actionDone"
+                    android:singleLine="true"
+                    android:text="云驾专用车"
+                    android:textColor="@color/color_bbbbbb"
+                    android:textColorHint="@color/color_bbbbbb"
+                    android:textCursorDrawable="@color/color_111111"
+                    android:textSize="@dimen/px32sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/px80dp"
+                android:layout_marginLeft="@dimen/px30dp">
+
+                <TextView
+                    style="@style/BindcarsStyle"
+                    android:layout_width="@dimen/px160dp"
+                    android:layout_height="match_parent"
+                    android:text="@string/cars_bind_number" />
+
+                <EditText
+                    android:id="@+id/carPlat"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:enabled="false"
+                    android:text="云A 00000"
+                    android:textColor="@color/color_bbbbbb"
+                    android:textColorHint="@color/color_bbbbbb"
+                    android:textCursorDrawable="@color/color_111111"
+                    android:textSize="@dimen/px32sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/px80dp"
+                android:layout_marginLeft="@dimen/px30dp">
+
+                <TextView
+                    style="@style/BindcarsStyle"
+                    android:layout_width="@dimen/px160dp"
+                    android:layout_height="match_parent"
+                    android:text="@string/cars_bind_imei" />
+
+                <EditText
+                    android:id="@+id/carDeviceID"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:enabled="false"
+                    android:text="设备ID"
+                    android:textColor="@color/color_bbbbbb"
+                    android:textColorHint="@color/color_bbbbbb"
+                    android:textCursorDrawable="@color/color_111111"
+                    android:textSize="@dimen/px32sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/px80dp"
+                android:layout_marginLeft="@dimen/px30dp">
+
+                <TextView
+                    style="@style/BindcarsStyle"
+                    android:layout_width="@dimen/px160dp"
+                    android:layout_height="match_parent"
+                    android:text="@string/cars_bind_plat" />
+
+                <EditText
+                    android:id="@+id/carCode"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:enabled="false"
+                    android:text="车架号"
+                    android:textColor="@color/color_bbbbbb"
+                    android:textColorHint="@color/color_bbbbbb"
+                    android:textCursorDrawable="@color/color_111111"
+                    android:textSize="@dimen/px32sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/px80dp"
+                android:layout_marginLeft="@dimen/px30dp">
+
+                <TextView
+                    style="@style/BindcarsStyle"
+                    android:layout_width="@dimen/px160dp"
+                    android:layout_height="match_parent"
+                    android:text="@string/cars_bind_bland" />
+
+                <EditText
+                    android:id="@+id/carBrand"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:enabled="false"
+                    android:text="车辆"
+                    android:textColor="@color/color_bbbbbb"
+                    android:textColorHint="@color/color_bbbbbb"
+                    android:textCursorDrawable="@color/color_111111"
+                    android:textSize="@dimen/px32sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/px80dp"
+                android:layout_marginLeft="@dimen/px30dp">
+
+                <TextView
+                    style="@style/BindcarsStyle"
+                    android:layout_width="@dimen/px160dp"
+                    android:layout_height="match_parent"
+                    android:text="@string/cars_bind_model" />
+
+                <EditText
+                    android:id="@+id/carModel"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:enabled="false"
+                    android:text="型号"
+                    android:textColor="@color/color_bbbbbb"
+                    android:textColorHint="@color/color_bbbbbb"
+                    android:textCursorDrawable="@color/color_111111"
+                    android:textSize="@dimen/px32sp" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/px80dp"
+                android:layout_marginLeft="@dimen/px30dp"
+                android:visibility="gone">
+
+                <TextView
+                    style="@style/BindcarsStyle"
+                    android:layout_width="@dimen/px160dp"
+                    android:layout_height="match_parent"
+                    android:text="@string/cars_bind_date" />
+
+                <EditText
+                    android:id="@+id/carDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:enabled="false"
+                    android:text="2018-10-03"
+                    android:textColor="@color/color_bbbbbb"
+                    android:textColorHint="@color/color_bbbbbb"
+                    android:textCursorDrawable="@color/color_111111"
+                    android:textSize="@dimen/px32sp" />
+            </LinearLayout>
+
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/px80dp"
+                android:layout_marginLeft="@dimen/px30dp"
+                android:visibility="gone">
+
+                <TextView
+                    style="@style/BindcarsStyle"
+                    android:layout_width="@dimen/px160dp"
+                    android:layout_height="match_parent"
+                    android:text="@string/cars_bind_color" />
+
+                <TextView
+                    android:id="@+id/tvColor"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="@dimen/px100dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="黑色"
+                    android:textColor="@color/color_bbbbbb"
+                    android:textColorHint="@color/color_bbbbbb"
+                    android:textSize="@dimen/px32sp" />
+            </LinearLayout>
+
+<!--            <LinearLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="@dimen/px200dp"-->
+<!--                android:layout_marginTop="@dimen/px24dp"-->
+<!--                android:orientation="horizontal"-->
+<!--                android:visibility="gone">-->
+
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:layout_marginLeft="@dimen/px30dp"-->
+<!--                    android:drawablePadding="@dimen/px30dp"-->
+<!--                    android:gravity="top"-->
+<!--                    android:text="@string/cars_add_image2"-->
+<!--                    android:textColor="@color/color_white"-->
+<!--                    android:textSize="@dimen/px32sp" />-->
+
+<!--                <ImageView-->
+<!--                    android:id="@+id/ivPicture"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:layout_marginLeft="@dimen/px30dp"-->
+<!--                    android:adjustViewBounds="true"-->
+<!--                    android:scaleType="centerInside"-->
+<!--                    android:src="" />-->
+<!--            </LinearLayout>-->
+        </LinearLayout>
+    </ScrollView>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/px1dp"
+        android:background="#191C21" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/px100dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/defaultCar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/px100dp"
+            android:layout_weight="1"
+            android:background="@drawable/cars_item_bottom_bg"
+            android:text="设为默认"
+            android:textColor="@color/color_f7cf0f"
+            android:textSize="@dimen/px32sp" />
+
+        <View
+            android:layout_width="@dimen/px1dp"
+            android:layout_height="match_parent"
+            android:background="#191C21" />
+
+        <Button
+            android:id="@+id/unBindBiKe"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/px100dp"
+            android:layout_weight="1"
+            android:background="@drawable/cars_item_bottom_bg"
+            android:text="@string/cars_unbind"
+            android:textColor="@color/color_f7cf0f"
+            android:textSize="@dimen/px32sp" />
+    </LinearLayout>
+</LinearLayout>

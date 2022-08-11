@@ -1,0 +1,26 @@
+package yunkeiot.com.carapp.ui.funcMenu;
+
+import yunkeiot.com.carapp.ui.base.CABaseActivity;
+import yunkeiot.com.carapp.ui.view.XList.XListView;
+
+public class CAAlarmActivity extends CABaseActivity implements XListView.IXListViewListener {
+    @Override
+    public void setUpViews() {
+
+    }
+
+    @Override
+    public void setUpData() {
+
+    }
+
+    @Override
+    public void onRefresh() {
+
+    }
+
+    @Override
+    public void onLoadMore() {
+
+    }
+}

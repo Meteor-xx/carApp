@@ -1,0 +1,15 @@
+package yunkeiot.com.carapp.ui.main;
+
+import androidx.appcompat.app.AppCompatActivity;
+import yunkeiot.com.carapp.R;
+
+import android.os.Bundle;
+
+public class CAMainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+    }
+}

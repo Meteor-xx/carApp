@@ -1,0 +1,79 @@
+package yunkeiot.com.carapp.ui.adapter;
+
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+import java.util.List;
+import yunkeiot.com.carapp.R;
+import yunkeiot.com.carapp.entity.CAMyCarsEntity;
+
+public class CACarsAdapter extends MyBaseAdapter {
+    private Context mContext;
+    private List<CAMyCarsEntity.CarBean> dataList;
+
+    public CACarsAdapter(Context context){
+        super(context);
+        mContext = context;
+    }
+
+    public void setData(List<CAMyCarsEntity.CarBean> dataList) {
+        this.dataList = dataList;
+        notifyDataSetChanged();
+    }
+    @Override
+    public int getCount() {
+        return this.dataList == null ? 0 : this.dataList.size();
+    }
+
+    @Override
+    public CAMyCarsEntity.CarBean getItem(int i) {
+        return this.dataList.get(i);
+    }
+
+    @Override
+    public long getItemId(int i) {
+        return super.getItemId(i);
+    }
+
+    @Override
+    public View getView(int i, View view, ViewGroup viewGroup) {
+        CACarsAdapter.ViewHolder viewHolder;
+        if (view == null){
+            view = LayoutInflater.from(mContext).inflate(R.layout.car_item_layout,viewGroup,false);
+            viewHolder = new CACarsAdapter.ViewHolder();
+            viewHolder.carStateImg = (ImageView) view.findViewById(R.id.car_choose_state);
+            viewHolder.plateNumber = (TextView)view.findViewById(R.id.car_choose_item);
+
+            view.setTag(viewHolder);
+        }else {
+            viewHolder =(CACarsAdapter.ViewHolder) view.getTag();
+        }
+        CAMyCarsEntity.CarBean item = getItem(i);
+        viewHolder.plateNumber.setText(item.getPlateNumber());
+        switch (item.getOnlineState()){
+            case 1://离线
+                viewHolder.carStateImg.setImageResource(R.mipmap.car_offline);
+                break;
+            case 2://上线
+                viewHolder.carStateImg.setImageResource(R.mipmap.car_online);
+                break;
+            case 3://熄火
+            case 4://点火
+                viewHolder.carStateImg.setImageResource(R.mipmap.car_driving);
+                break;
+            default:
+                viewHolder.carStateImg.setImageResource(R.mipmap.car_stop);
+                break;
+        }
+
+        return view;
+    }
+    class ViewHolder {
+        ImageView carStateImg;
+        TextView plateNumber;
+
+    }
+}

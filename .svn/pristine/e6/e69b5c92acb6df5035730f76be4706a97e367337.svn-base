@@ -1,0 +1,4 @@
+package yunkeiot.com.carapp.ui.adapter;
+
+public class CATrailsListAdapter {
+}

@@ -1,0 +1,68 @@
+package yunkeiot.com.carapp.entity;
+
+
+
+import java.io.Serializable;
+
+import yunkeiot.com.carapp.common.CATools;
+import yunkeiot.com.carapp.entity.Data.BaseEntity;
+
+public class CALoginEntity extends BaseEntity implements Serializable {
+
+    private UserLoginData data;
+    public UserLoginData getData() {
+        return data;
+    }
+    public void setData(UserLoginData data) {
+        this.data = data;
+    }
+    public static class UserLoginData implements Serializable{
+
+
+        private String accessToken;
+        private String expiresTime;
+        private String id;
+        private String operatoeCode;
+        private String weCharKey;
+        public String getAccessToken() {
+            return accessToken;
+        }
+
+        public void setAccessToken(String accessToken) {
+            this.accessToken = accessToken;
+        }
+
+        public String getExpiresTime() {
+            return expiresTime;
+        }
+
+        public void setExpiresTime(String expiresTime) {
+            this.expiresTime = expiresTime;
+        }
+
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        public String getOperatoeCode() {
+            return operatoeCode;
+        }
+
+        public void setOperatoeCode(String operatoeCode) {
+            this.operatoeCode = operatoeCode;
+        }
+
+        public String getWeCharKey() {
+            return weCharKey;
+        }
+
+        public void setWeCharKey(String weCharKey) {
+            this.weCharKey = weCharKey;
+        }
+
+    }
+}

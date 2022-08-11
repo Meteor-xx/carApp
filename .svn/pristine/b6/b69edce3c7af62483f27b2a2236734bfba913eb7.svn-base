@@ -1,0 +1,113 @@
+package yunkeiot.com.carapp.common;
+
+import android.content.SharedPreferences;
+
+import com.google.gson.Gson;
+
+import yunkeiot.com.carapp.application.CAApplication;
+import yunkeiot.com.carapp.entity.CALoginEntity;
+import yunkeiot.com.carapp.http.engine.MD5Util;
+
+import static android.content.Context.MODE_PRIVATE;
+
+/**
+ * Created by meteor on 2019/11/23
+ * Description:
+ */
+public class CAShareData {
+    private static final String USER_LOGIN_DATA = "USER_LOGIN_DATA";
+    private static final String USER_HAS_GUIDE = "USER_HAS_GUIDE";
+
+    private static final String USER_FRIENDS_ADD = "USER_FRIENDS_ADD";
+
+
+    private static final String DEFAULT_CAR = "DEFAULT_CAR";
+    private static final String USER_LOGIN_ACCOUNT = "USER_LOGIN_ACCOUNT";
+    private static final String USER_LOGIN_PWD = "USER_LOGIN_PWD";
+
+    public static SharedPreferences makeSharedPreferences(String tag) {
+        return CAApplication.getApplication().getSharedPreferences(tag, MODE_PRIVATE);
+    }
+
+    /**
+     * 保存用户登录状态信息
+     *
+     * @param data
+     */
+    public static void saveUserLoginData(CALoginEntity.UserLoginData data) {
+        SharedPreferences sp = makeSharedPreferences(USER_LOGIN_DATA);
+        SharedPreferences.Editor editor = sp.edit();
+        if (data == null) {  //未传进数据
+//            if (isLoginWidthDefault()) {
+//                editor.putString(USER_LOGIN_DATA, "");
+//            } else {
+            CALoginEntity.UserLoginData userLoginData = getUserLoginData();
+            if (userLoginData != null) {  //存储空间有数据
+//                    CALoginEntity.UserLoginData userLoginDataNew = new CALoginEntity.UserLoginData();
+                /**
+                 * 此处应该判断token过期
+                 */
+//                    String json = new Gson().toJson(userLoginDataNew);
+                editor.putString(USER_LOGIN_DATA, "");
+            } else {
+                editor.putString(USER_LOGIN_DATA, "");
+            }
+//            }
+        } else {
+            String json = new Gson().toJson(data);
+            editor.putString(USER_LOGIN_DATA, json);
+        }
+        editor.commit();
+    }
+    /**
+     * 获取用户登录数据
+     *
+     * @return
+     */
+    public static CALoginEntity.UserLoginData getUserLoginData() {
+        SharedPreferences sp = makeSharedPreferences(USER_LOGIN_DATA);
+        String data = sp.getString(USER_LOGIN_DATA, "");
+        if (data == null || "".equals(data)) {
+            return null;
+        } else {
+            return new Gson().fromJson(data, CALoginEntity.UserLoginData.class);
+        }
+    }
+    public static void saveLoginAccount(String account) {
+        SharedPreferences sp = makeSharedPreferences(USER_LOGIN_ACCOUNT);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString(USER_LOGIN_ACCOUNT, account);
+        editor.commit();
+    }
+
+    public static String getLoginAccount() {
+        SharedPreferences sp = makeSharedPreferences(USER_LOGIN_ACCOUNT);
+        return sp.getString(USER_LOGIN_ACCOUNT, null);
+    }
+
+    public static void saveLoginPwd(String pwd) {
+        SharedPreferences sp = makeSharedPreferences(USER_LOGIN_PWD);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString(USER_LOGIN_PWD, MD5Util.encrypt(pwd));
+        editor.commit();
+    }
+
+    public static String getLoginPwd() {
+        SharedPreferences sp = makeSharedPreferences(USER_LOGIN_PWD);
+        return sp.getString(USER_LOGIN_PWD, null);
+    }
+
+
+//    /**
+//     * 是否为游客模式
+//     *
+//     * @return
+//     */
+//    public static boolean isLoginWidthDefault() {
+//        CALoginEntity.UserLoginData data = getUserLoginData();
+//        if (data != null) {
+//            return true;
+//        }
+//        return false;
+//    }
+}

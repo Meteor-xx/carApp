@@ -1,0 +1,151 @@
+package com.http.engine;
+
+import android.text.TextUtils;
+import android.util.Log;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.logging.Logger;
+
+/**
+ * Created by man.li on 2018/1/17.
+ */
+
+public class HttpLogger {
+    private static final boolean DEBUG = BuildConfig.DEBUG;
+    private static String TAG = "EBike网络请求:";
+    private static final String LINE_SEPARATOR = "\n";
+    private static final int JSON_INDENT = 4;
+
+    public static void i(String tag, String msg) {
+        if(!DEBUG) {
+            return;
+        }
+        Log.i(tag, TAG + msg);
+    }
+
+    public static void w(String tag, String msg) {
+        if(!DEBUG) {
+            return;
+        }
+        Log.w(tag, TAG + msg);
+    }
+
+    public static void e(String tag, String msg) {
+        if(!DEBUG) {
+            return;
+        }
+        Log.e(tag, TAG + msg);
+    }
+
+    public static void v(String tag, String msg) {
+        if(!DEBUG) {
+            return;
+        }
+        log('v', tag, TAG + msg);
+    }
+
+    /**
+     * when log is too long,split it
+     *
+     * @param level
+     * @param tag
+     * @param text
+     */
+    private static void log(char level, String tag, String text) {
+        try {
+            final int PART_LEN = 3000;
+
+            do {
+                int clipLen = text.length() > PART_LEN ? PART_LEN : text.length();
+                String clipText = text.substring(0, clipLen);
+                text = clipText.length() == text.length() ? "" : text.substring(clipLen);
+                switch (level) {
+                    case 'i':
+                        Log.i(tag, clipText);
+                        break;
+                    case 'd':
+                        Log.d(tag, clipText);
+                        break;
+                    case 'w':
+                        Log.w(tag, clipText);
+                        break;
+                    case 'v':
+                        Log.v(tag, clipText);
+                        break;
+                    case 'e':
+                        Log.e(tag, clipText);
+                        break;
+                    default:
+                        break;
+                }
+            } while (text.length() > 0);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static String jsonLog(String message) {
+        if (!DEBUG) {
+            return "";
+        }
+        if (TextUtils.isEmpty(message)) {
+            return "";
+        }
+        try {
+            int job = message.indexOf("{");
+            int joe = message.lastIndexOf("}");
+            int jab = message.indexOf("[");
+            int jae = message.lastIndexOf("]");
+            /**
+             * -1,不存在json格式字符串
+             * 0,jsonobject
+             * 1,jsonarray
+             */
+            int type;
+            if (job != -1 && (-1 == jab || job < jab) && joe != -1 && joe > job) {
+                type = 0;
+            } else if (jab != -1 && (-1 == job || jab < job) && jae != -1 && jae > jab) {
+                type = 1;
+            } else {
+                type = -1;
+            }
+            if (type == -1) {
+                return message;
+            } else {
+                StringBuilder jsonLog = new StringBuilder();
+
+                switch (type) {
+                    case 0:
+                        jsonLog.append(message.substring(0, job)).append(LINE_SEPARATOR);
+                        jsonLog.append(new JSONObject(message.substring(job, joe + 1)).toString(
+                                JSON_INDENT)).append(LINE_SEPARATOR);
+                        jsonLog.append(message.substring(joe + 1, message.length()))
+                                .append(LINE_SEPARATOR);
+                        break;
+                    case 1:
+                        jsonLog.append(message.substring(0, jab)).append(LINE_SEPARATOR);
+                        jsonLog.append(new JSONArray(message.substring(jab, jae + 1)).toString(
+                                JSON_INDENT)).append(LINE_SEPARATOR);
+                        jsonLog.append(message.substring(jae + 1, message.length()))
+                                .append(LINE_SEPARATOR);
+                        break;
+                    default:
+                        break;
+                }
+
+                return jsonLog.toString();
+            }
+        } catch (Exception e) {
+            if (e != null) {
+                String msg = e.getMessage();
+                if (!TextUtils.isEmpty(msg)) {
+                    Log.w("xlog", msg);
+                }
+            }
+        }
+        return "";
+    }
+
+}

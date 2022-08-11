@@ -1,0 +1,42 @@
+<resources>
+    <string name="app_name">云驾智联</string>
+
+    <string name="common_numbers">1234567890</string>
+    <string name="common_numbers_tm">1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz</string>
+
+    <string name="dialog_waiting">请稍后...</string>
+    <string name="dialog_login">正在登录...</string>
+
+    <string name="login_mobile_hide">请输入手机号</string>
+    <string name="login_pwd_hide">请输入密码</string>
+    <string name="login_get_code">获取验证码</string>
+    <string name="login_mobile_code_hide">请输入验证码</string>
+    <string name="login_button_str">登录</string>
+
+    <string name="nav_home_">首页</string>
+    <string name="nav_choose_car">选车</string>
+    <string name="nav_location_">车辆位置</string>
+
+    <string name="main_nav_rating">排行榜</string>
+    <string name="main_nav_trajectory">车辆行程</string>
+    <string name="main_nav_driver">驾驶行为</string>
+    <string name="main_nav_warning">车辆告警</string>
+    <string name="main_nav_peccancy">违章</string>
+    <string name="main_nav_report">统计报表</string>
+    <string name="main_tower_default">设备在线</string>
+    <string name="main_locate_default">GPS在线</string>
+    <string name="main_miles_default">0KM</string>
+    <string name="main_waste_default">0L/100KM</string>
+
+
+    <string name="nav_fuc_trails">车辆行程</string>
+
+    <string name="xlistview_header_hint_normal">下拉刷新</string>
+    <string name="xlistview_header_hint_ready">下拉刷新</string>
+    <string name="xlistview_header_hint_loading">加载中...</string>
+    <string name="xlistview_header_last_time">更新时间：</string>
+    <string name="xlistview_footer_hint_normal">上拉加载更多</string>
+    <string name="xlistview_footer_hint_ready">加载更多</string>
+
+    <string name="Log_L_F">Log_LocationFragment</string>
+</resources>

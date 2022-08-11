@@ -1,0 +1,1 @@
+1. vehicleinfolist接口plateNumber传参为空时，返回resCode应为1000

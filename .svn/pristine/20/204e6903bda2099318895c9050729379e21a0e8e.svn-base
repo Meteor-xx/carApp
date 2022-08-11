@@ -1,0 +1,634 @@
+package com.http.engine;
+
+import android.app.Activity;
+import android.content.Context;
+import android.nfc.Tag;
+import android.os.Handler;
+
+import com.google.gson.Gson;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.lang.reflect.Type;
+import java.net.FileNameMap;
+import java.net.URLConnection;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
+
+import download.Logger;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.MediaType;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+
+import static com.http.engine.ErrorCode.ERROR_CODE_1030005;
+import static com.http.engine.ErrorCode.ERROR_CODE_1030022;
+import static com.http.engine.ErrorCode.ERROR_CODE_1030043;
+import static com.http.engine.ErrorCode.ERROR_CODE_1030045;
+import static com.http.engine.ErrorCode.ERROR_CODE_1100023;
+import static com.http.engine.ErrorCode.ERROR_CODE_1160303;
+import static com.http.engine.ErrorCode.ERROR_CODE_1160333;
+import static com.http.engine.UploadUtil.UPLOAD_SUCCESS_CODE;
+
+
+/**
+ * Created by man.li on 2018/1/16.
+ * 网络请求框架
+ */
+
+public class HttpRequestEngine {
+    private static HttpRequestEngine instance;
+    private static final String NetError = "网络异常,请检查网络";
+    private static final String Other_ERROR = "";
+    private HttpUserInvalidListener httpUserInvalidListener;
+    /**
+     * 本地时间与服务器上时间的差值
+     */
+    private static long sTimeDiff = 0;
+
+    public static HttpRequestEngine getInstance() {
+        if (instance == null) {
+            instance = new HttpRequestEngine();
+        }
+        return instance;
+    }
+
+    public void addHttpUserInvalidListener(HttpUserInvalidListener httpUserInvalidListener) {
+        this.httpUserInvalidListener = httpUserInvalidListener;
+    }
+
+    /**
+     * @Directions:普通网络数据请求 get请求
+     * @author: liman
+     * @date: 2015-8-12
+     * @tag:@param params 参数表
+     * @tag:@param type 实体类型 >>>> 例: LoginEntiy.class
+     * @tag:@param callback 结果回调
+     */
+    public void getRequest(Context context, Map<String, String> params, final Type type,
+                           final RequestCallback callback) {
+        if (HttpTools.checkNetworkEnable(context)) {
+            params.put("sign", HttpTools.getSign(params));
+            String url = HttpConfig.HTTPS_URL;
+            String service = params.get("service"); //service开头不能带"/"
+            url += service;  //添加服务名
+            params.remove("service");
+            url = OkHttpUtil.attachHttpGetParam(url, params);
+            HttpLogger.i("请求url:", url);
+//            Request request = new Request.Builder().url(url).build();
+            Request request = new Request.Builder().url(url).addHeader("Content-Type", "application/json").build();
+            final long starTime = System.currentTimeMillis();
+            OkHttpUtil.enqueue(request, new MyCallback(context, starTime, url, type, params.get("service"), callback));
+        } else {
+            failed(NetError, callback);
+        }
+    }
+
+    public void postRequest(Context context, Map<String, String> params, final Type type,
+                            final RequestCallback callback) {
+        postRequest(context, params, type, null, callback);
+    }
+
+    /**
+     * Post请求
+     *
+     * @param context
+     * @param params
+     * @param type
+     * @param callback
+     */
+    public void postRequest(Context context, Map<String, String> params, final Type type, Object backParam,
+                            final RequestCallback callback) {
+        if (context != null) {
+            if (context instanceof Activity && ((Activity) context).isFinishing()) {
+                return;
+            }
+            post(context, HttpConfig.HTTPS_URL, params, type, backParam, callback);
+        }
+    }
+
+    /**
+     * 无参数的请求
+     *
+     * @param url      请求地址
+     * @param callback
+     */
+    public void requestWithNoParams(Context context, String url, final Type type, final RequestCallback callback) {
+        if (HttpTools.checkNetworkEnable(context)) {
+            HttpLogger.i("请求url:", url);
+            Request request = new Request.Builder().url(url).build();
+            final long starTime = System.currentTimeMillis();
+            OkHttpUtil.enqueue(request, new MyCallback(context, starTime, url, type, "", callback));
+        } else {
+            failed(NetError, callback);
+        }
+    }
+
+
+    public void post(Context context, String url, Map<String, String> params, final Type type, Object backParam, final RequestCallback callback) {
+        String service = params.get("service"); //service开头不能带"/"
+        url += service;//添加服务名
+        params.remove("service");
+        if (HttpTools.checkNetworkEnable(context)) {
+            //HttpLogger.i("请求服务器参数(请求数据) = >", url);
+            params.put("sign", HttpTools.getSign(params));
+            //HttpLogger.i("请求服务器参数(请求数据Post) = >", params + "");
+            final long startTime = System.currentTimeMillis();
+//            FormBody.Builder formBody = new FormBody.Builder();
+//            String pms = getParams(formBody, params);
+////            RequestBody body = RequestBody.create(MediaType.parse("application/json"), getJsonParams(params)); //formBody.build();
+//            Request.Builder builder = new Request.Builder();
+//            builder.removeHeader("Content-Type");
+//            builder = builder.url(url).header("Content-Type", "application/json").post(formBody.build());
+//            Request request = builder.build();
+//            OkHttpUtil.enqueue(request, new MyCallback(context, startTime, url, type, service, callback).setBackParam(backParam));
+
+            String jsonData = new JSONObject(params).toString();
+            Logger.i("网络请求参数 post json: ", jsonData);
+            RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonData);
+            Request.Builder builder = new Request.Builder();
+            builder.removeHeader("Content-Type");
+            builder = builder.url(url).header("Content-Type", "application/json").post(body);
+            Request request = builder.build();
+            OkHttpUtil.enqueue(request, new MyCallback(context, startTime, url, type, service, callback).setBackParam(backParam));
+
+        } else {
+            failed(service, NetError, backParam, callback);
+        }
+    }
+
+    private String getJsonParams(Map<String, String> params) {
+        Set<String> keySet = params.keySet();
+        Iterator<String> iterator = keySet.iterator();
+        StringBuffer buffer = new StringBuffer();
+        JSONObject jsonObject = new JSONObject();
+        while (iterator.hasNext()) {
+            String key = iterator.next();
+            String value = params.get(key);
+            buffer.append(key).append("=").append(value);
+            if (iterator.hasNext()) {
+                buffer.append("&");
+            }
+            if (!HttpTools.isEmpty(value)) {
+                //formEncodingBuilder.add(key, value);
+                try {
+                    jsonObject.put(key, value);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        HttpLogger.i("Post键值", buffer.toString());
+        return jsonObject.toString();
+    }
+
+
+    private String getParams(FormBody.Builder formEncodingBuilder, Map<String, String> params) {
+        Set<String> keySet = params.keySet();
+        Iterator<String> iterator = keySet.iterator();
+        StringBuffer buffer = new StringBuffer();
+        while (iterator.hasNext()) {
+            String key = iterator.next();
+            String value = params.get(key);
+            buffer.append(key).append("=").append(value);
+            if (iterator.hasNext()) {
+                buffer.append("&");
+            }
+            if (!HttpTools.isEmpty(value)) {
+                formEncodingBuilder.add(key, value);
+            }
+        }
+        HttpLogger.i("Post键值", buffer.toString());
+        return buffer.toString();
+    }
+
+    private String getParams(Map<String, String> params) {
+        Set<String> keySet = params.keySet();
+        Iterator<String> iterator = keySet.iterator();
+        StringBuffer buffer = new StringBuffer();
+        while (iterator.hasNext()) {
+            String key = iterator.next();
+            String value = params.get(key);
+            buffer.append(key).append("=").append(value);
+            if (iterator.hasNext()) {
+                buffer.append("&");
+            }
+        }
+        return buffer.toString();
+    }
+
+    class MyCallback implements Callback {
+        private long startTime;
+        private Type type;
+        private RequestCallback callback;
+        private String url;
+        private String service;
+        private Context mContext;
+        private Object backParam;
+
+        public MyCallback(Context context, long startTime, String url, Type type, String service, RequestCallback callback) {
+            this.startTime = startTime;
+            this.type = type;
+            this.callback = callback;
+            this.url = url;
+            this.service = service;
+            this.mContext = context;
+        }
+
+        @Override
+        public void onFailure(Call call, IOException e) {
+            if (!isCanceled()) {
+                failed(service, Other_ERROR, backParam, callback);
+                printTimeDelay(startTime);
+                e.printStackTrace();
+                HttpLogger.i(this.url + "    " + this.service + "\n服务器返回失败", "异常日志" + e.toString());
+            }
+        }
+
+        @Override
+        public void onResponse(Call call, Response response) throws IOException {
+            try {
+                calculateTimeDiff(response);
+                if (!isCanceled()) {
+                    String result = response.body().string();
+                    //HttpLogger.i(this.url + this.service + "\n请求返回成功:", result);
+                    HttpLogger.i(this.service, "请求返回成功:" + result);//tag过长导致不打印log
+                    result = dealJson(result);
+                    //HttpLogger.i(this.url + this.service + "\n请求返回成功(处理之后):", result);
+                    if (!HttpTools.isEmpty(result)) {
+                        try {
+                            result = checkEmptyObj(new JSONObject(result));
+                            if (type != null) {
+                                BaseEntity entity = (BaseEntity) new Gson().fromJson(result, type);
+//                                BoosooEntityNoInfo entityInfo = (BoosooEntityNoInfo) new Gson().fromJson(result, BoosooEntityNoInfo.class);
+//                                if (entityInfo != null && entityInfo.getData() != null) {
+//                                    if (CheckRechargeCode(entityInfo.getData().getCode())) {
+//                                        creditRunningLow(entity, result);
+//                                        failed(service, Other_ERROR, backParam, callback);
+//                                    } else if (entityInfo.getData().getCode() == ERROR_CODE_1030043) {
+////                                    userBeQuited(entity, result);
+//                                        userBeQuited(entity, this.url + this.service + "   " + result);
+//                                        failed(service, Other_ERROR, backParam, callback);
+//                                    } else if (entityInfo.getData().getCode() == ERROR_CODE_1030045 || entityInfo.getData().getCode() == ERROR_CODE_1030005) {
+//                                        userBindPhone(entity, result);
+//                                        failed(service, Other_ERROR, backParam, callback);
+//                                    } else {
+//                                        success(service, entity, result, backParam, callback);
+//                                    }
+//                                } else {
+                                success(service, entity, result, backParam, callback);
+//                                }
+                            } else {
+                                success(service, null, result, backParam, callback);
+                            }
+                        } catch (Exception e) {
+                            // TODO: handle exception
+                            e.printStackTrace();
+                            HttpLogger.i("httpRequest", "Json解析出错" + e.toString());
+                            failed(service, Other_ERROR, backParam, callback);
+                        }
+                    } else {
+                        failed(service, Other_ERROR, backParam, callback);
+                    }
+                    printTimeDelay(startTime);
+                }
+            } catch (Throwable throwable) {
+                throwable.printStackTrace();
+                failed(service, Other_ERROR, backParam, callback);
+            }
+        }
+
+        private boolean isCanceled() {
+            if (mContext != null && mContext instanceof Activity && ((Activity) mContext).isFinishing()) {
+                return true;
+            }
+            return false;
+        }
+
+        public MyCallback setBackParam(Object backParam) {
+            this.backParam = backParam;
+            return this;
+        }
+    }
+
+    private void doRequestSuccess(String result) {
+
+    }
+
+    private boolean CheckRechargeCode(int code) {
+        return (code == ERROR_CODE_1030022) || (code == ERROR_CODE_1100023) ||
+                (code == ERROR_CODE_1160303) || (code == ERROR_CODE_1160333);
+    }
+
+    private static Handler handler = new Handler();
+
+    private void success(final BaseEntity entity, final String result, final RequestCallback callback) {
+        success("", entity, result, null, callback);
+    }
+
+    private void failed(final String result, final RequestCallback callback) {
+        failed("", result, null, callback);
+    }
+
+    private void success(final String service, final BaseEntity entity, final String result, final Object backParam, final RequestCallback callback) {
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                if (callback != null) {
+                    callback.onRequestSuccess(entity, result);
+                    if (callback instanceof RequestCallback.XRequestCallback) {
+                        ((RequestCallback.XRequestCallback) callback).onRequestSuccess(service, entity, result, backParam);
+                    }
+                }
+            }
+        });
+    }
+
+    private void failed(final String service, final String result, final Object backParam, final RequestCallback callback) {
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (callback != null) {
+                    callback.onRequestFailed(result);
+                    if (callback instanceof RequestCallback.XRequestCallback) {
+                        ((RequestCallback.XRequestCallback) callback).onRequestFailed(service, result, backParam);
+                    }
+                }
+            }
+        }, 500);
+    }
+
+    /**
+     * 用户token访问无效
+     *
+     * @param result
+     */
+    private void userBindPhone(final BaseEntity entity, final String result) {
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (httpUserInvalidListener != null) {
+                    httpUserInvalidListener.onHttpBindPhoneListener(entity, result);
+                }
+            }
+        }, 500);
+    }
+
+    /**
+     * 余额不足
+     *
+     * @param result
+     */
+    private void creditRunningLow(final BaseEntity entity, final String result) {
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (httpUserInvalidListener != null) {
+                    httpUserInvalidListener.onCreditRunningLow(entity, result);
+                }
+            }
+        }, 500);
+    }
+
+    /**
+     * 用户token访问无效
+     *
+     * @param result
+     */
+    private void userBeQuited(final BaseEntity entity, final String result) {
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (httpUserInvalidListener != null) {
+                    httpUserInvalidListener.onHttpUserInvalidListener(entity, result);
+                }
+            }
+        }, 500);
+    }
+
+    private void printTimeDelay(long startTime) {
+        HttpLogger.i("服务器响应时长:", String.valueOf(System.currentTimeMillis() - startTime));
+    }
+
+    /**
+     * 不需要返回类型的post一般参数请求
+     *
+     * @param context
+     * @param url
+     * @param cmd
+     * @param params
+     * @param callback
+     */
+    private void post(Context context, String url, String cmd, String params, final RequestCallback callback) {
+        if (HttpTools.checkNetworkEnable(context)) {
+            url = url + cmd;
+
+            HttpLogger.i("请求服务器参数(请求数据) = >", url);
+
+            HttpLogger.i("请求服务器参数(请求数据Post) = >", params);
+            final long startTime = System.currentTimeMillis();
+            //RequestBody body = RequestBody.create(MediaType.parse("text/x-markdown; charset=utf-8"), params);
+            RequestBody body = RequestBody.create(MediaType.parse("application/json"), params);
+            Request request = new Request.Builder().url(url).post(body).build();
+            OkHttpUtil.enqueue(request, new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    failed(Other_ERROR, callback);
+                    HttpLogger.i("服务器返回失败 = >", e.toString());
+                    printTimeDelay(startTime);
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    String result = response.body().string();
+                    HttpLogger.i("服务器返回成功 = >", "" + result);
+                    if (!HttpTools.isEmpty(result)) {
+                        success(null, result, callback);
+                    }
+                    printTimeDelay(startTime);
+                }
+            });
+        } else {
+            failed(NetError, callback);
+        }
+    }
+
+    /**
+     * 需要返回类型的post一般参数请求
+     *
+     * @param context
+     * @param params
+     * @param callback
+     */
+    private void post(Context context, Map<String, String> paramsMap, String params, final Type type, final RequestCallback callback) {
+        if (HttpTools.checkNetworkEnable(context)) {
+            String url = OkHttpUtil.attachHttpGetParam(BoosooShareHttpsUrlData.getCurrentHttpsUrl(context), paramsMap);
+
+            HttpLogger.i("请求服务器参数(请求数据) = >", url);
+
+            HttpLogger.i("请求服务器参数(请求数据Post) = >", params);
+            long startTime = System.currentTimeMillis();
+            RequestBody body = RequestBody.create(MediaType.parse("text/x-markdown; charset=utf-8"), params);
+            Request request = new Request.Builder().url(url).post(body).build();
+            OkHttpUtil.enqueue(request, new MyCallback(context, startTime, url, type, paramsMap.get("service"), callback));
+        } else {
+            failed(NetError, callback);
+        }
+    }
+
+    /**
+     * 处理一下空数据
+     *
+     * @param json
+     * @return
+     */
+    private static String dealJson(String json) {
+        if (json.startsWith("<") || HttpTools.isEmpty(json)) {
+            json = "";
+        } else {
+            if (json.startsWith("(")) {
+                json = json.replaceFirst("\\(", "");
+                HttpLogger.i("开头", "开头替换" + json);
+            }
+            if (json.endsWith(")")) {
+                json = json.substring(0, json.length() - 1);
+                HttpLogger.i("结尾", "结尾替换" + json);
+            }
+        }
+        return json;
+    }
+
+    private static String checkEmptyObj(JSONObject jsonObject) {
+        LinkedList<String> map = new LinkedList<String>();
+        try {
+            Iterator<String> it = jsonObject.keys();
+            while (it.hasNext()) {
+                String key = it.next();
+                if ("[]".equals(jsonObject.getString(key)) || "null".equals(jsonObject.getString(key))) {
+                    map.add(key);
+                    continue;
+                }
+
+                if (key.equals("data") && ("0".equals(jsonObject.getString(key)))) {
+                    map.add(key);
+                    continue;
+                }
+
+                JSONObject obj = jsonObject.optJSONObject(key);
+                if (obj != null) {
+                    checkEmptyObj(obj);
+                } else {
+                    JSONArray jsonArray = jsonObject.optJSONArray(key);
+                    if (jsonArray != null) {
+                        if ("[]".equals(jsonObject.getString(key))) {
+//                            jsonObject.remove(key);
+                            map.add(key);
+                        } else {
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                Object object = jsonArray.get(i);
+                                if (object instanceof JSONObject) {
+                                    checkEmptyObj(jsonArray.getJSONObject(i));
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            for (String key : map) {
+                jsonObject.remove(key);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
+        }
+
+        return jsonObject.toString();
+    }
+
+
+    /**
+     * 单个提交文件(图片之类...)
+     *
+     * @param context
+     * @param params   一般参数
+     * @param type     返回数据泛型
+     * @param callback
+     */
+    public void postFileRequest(final Context context,
+                                final Map<String, String> params, String fileKey, String filePath,
+                                final Type type, final RequestCallback callback) {
+
+        UploadUtil.getInstance().setOnUploadProcessListener(new UploadUtil.OnUploadProcessListener() {
+            @Override
+            public void onUploadDone(int responseCode, String message) {
+                HttpLogger.i("UPLOAD", "onUploadDone = " + message);
+                try {
+                    if (responseCode == UPLOAD_SUCCESS_CODE) {
+                        BaseEntity entity = (BaseEntity) new Gson().fromJson(message, type);
+                        if (entity != null) {
+                            success(entity, message, callback);
+                        }
+                    } else {
+                        failed("上传失败", callback);
+                    }
+                } catch (Exception e) {
+
+                }
+            }
+
+            @Override
+            public void onUploadProcess(int uploadSize) {
+//                HttpLogger.i("UPLOAD", "onUploadProcess = " + uploadSize);
+            }
+
+            @Override
+            public void initUpload(int fileSize) {
+//                HttpLogger.i("UPLOAD", "initUpload = " + fileSize);
+            }
+        });
+        UploadUtil.getInstance().uploadFile(filePath, fileKey, HttpConfig.HTTPS_URL, params);
+
+    }
+
+
+    private String guessMimeType(String path) {
+        FileNameMap fileNameMap = URLConnection.getFileNameMap();
+        String contentTypeFor = fileNameMap.getContentTypeFor(path);
+        if (contentTypeFor == null) {
+            contentTypeFor = "application/octet-stream";
+        }
+        return contentTypeFor;
+    }
+
+    private static void calculateTimeDiff(Response response) {
+        try {
+            String dateStr = response.header("Date");
+            Date date = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss zzz", Locale.US).parse(
+                    dateStr);
+            sTimeDiff = System.currentTimeMillis() - date.getTime();
+            HttpLogger.v("[calculateTimeDiff]", String.format("local and server time differ [%d]", sTimeDiff));
+        } catch (Exception e) {
+            sTimeDiff = 0;
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 获取服务器当前的时间
+     */
+    public static long getServerCurrentTimeMillis() {
+        return System.currentTimeMillis() - sTimeDiff;
+    }
+}

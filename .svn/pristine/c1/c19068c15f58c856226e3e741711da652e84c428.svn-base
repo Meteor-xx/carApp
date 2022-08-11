@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="LoadingView">
+        <attr name="circleBorderWidth" format="dimension" />
+        <attr name="borderColor" format="color" />
+        <attr name="centerColor" format="color" />
+        <attr name="centerWidth" format="dimension" />
+        <attr name="needAnimation" format="boolean" />
+        <attr name="radius" format="dimension" />
+    </declare-styleable>
+</resources>

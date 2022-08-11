@@ -1,0 +1,11 @@
+package com.http.engine;
+
+/**
+ * Created by man.li on 2018/1/17.
+ */
+
+public enum HttpsEnv {
+    HTTPS_DEV,
+    HTTPS_TEST,
+    HTTPS_PUBLISH
+}

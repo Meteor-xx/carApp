@@ -1,0 +1,115 @@
+package yunkeiot.com.carapp.ui.login;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+
+import com.http.engine.BaseEntity;
+import com.http.engine.HttpConfig;
+import com.http.engine.MD5Util;
+import com.http.engine.PwdCheckUtil;
+import com.http.engine.RequestCallback;
+
+import java.util.Timer;
+import java.util.TimerTask;
+
+import androidx.annotation.Nullable;
+import yunkeiot.com.carapp.R;
+import yunkeiot.com.carapp.common.CAShareData;
+import yunkeiot.com.carapp.common.CATools;
+import yunkeiot.com.carapp.entity.CALoginEntity;
+import yunkeiot.com.carapp.ui.base.CABaseActivity;
+
+public class CALoginActivity extends CABaseActivity {
+    private EditText mobile, code;
+    private Timer timer;
+    private int second = 60;
+    private Button sendCode;
+
+
+    private EditText userName, userPwd;
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login_layout);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
+    public void setUpViews() {
+        mobile = (EditText) findViewById(R.id.et_mobile);
+        code = (EditText) findViewById(R.id.et_code);
+        sendCode = (Button) findViewById(R.id.sendCode);
+
+
+        userName = (EditText) findViewById(R.id.userName);
+        userPwd = (EditText) findViewById(R.id.userPwd);
+
+    }
+
+    @Override
+    public void setUpData() {
+
+    }
+
+    public void noLogin(View view) {
+        /**
+         * 游客登录
+         */
+        final String _mobile = "13900000000";
+        final String _pwd = "123456";
+        toMainActivity();
+    }
+
+    public void doLogin(View view) {
+
+//        final String _mobile = userName.getText().toString().trim();
+//        final String _pwd = userPwd.getText().toString().trim();
+//        if (CATools.isEmpty(_mobile)) {
+//            showToast(R.string.login_mobile_hide);
+//            return;
+//        }
+//        if (CATools.isEmpty(_pwd)) {
+//            showToast(R.string.login_pwd_hide);
+//            return;
+//        }
+//
+//        if (!PwdCheckUtil.checkPasswordChars(_pwd)) {
+////            showToast(R.string.pwd_error_tip);
+//            showToast("密码错误");
+//            return;
+//        }
+//        if (!PwdCheckUtil.checkPasswordLength(_pwd, 8, 20)) {
+////            showToast(R.string.pwd_len_error_tip);
+//            showToast("密码错误");
+//            return;
+//        }
+        toMainActivity();
+    }
+
+//    private void startTimer() {
+//        if (timer == null) {
+//            sendCode.setEnabled(false);
+//            timer = new Timer();
+//            timer.schedule(new TimerTask() {
+//                @Override
+//                public void run() {
+//                    handler.sendEmptyMessage(second);
+//                    second--;
+//                }
+//            }, 0, 1000);
+//        }
+//    }
+//
+//    private void closeTimer() {
+//        if (timer != null) {
+//            timer.cancel();
+//            timer = null;
+//        }
+//    }
+}

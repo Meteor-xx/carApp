@@ -1,0 +1,56 @@
+package com.http.engine;
+
+import android.content.Context;
+import android.content.SharedPreferences;
+
+import static android.content.Context.MODE_PRIVATE;
+
+/**
+ * Created by wuyukun on 2018/5/14.
+ *
+ * @anchor 吴玉坤
+ */
+
+public class BoosooShareHttpsUrlData {
+
+    /**
+     * 当前请求接口
+     */
+    private static final String DATA_HTTPS_URL = "DATA_HTTPS_URL";
+
+    /**
+     * 保存当前请求url
+     *
+     * @param context
+     * @param HttpsUrl
+     */
+    public static void saveCurrentHttpsUrl(Context context, String HttpsUrl) {
+        SharedPreferences sharedPreferences = makeSharedPreferences(context, DATA_HTTPS_URL);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(DATA_HTTPS_URL, HttpsUrl);
+        editor.commit();
+    }
+
+    /**
+     * 获取当前请求url
+     *
+     * @param context
+     * @return
+     */
+    public static String getCurrentHttpsUrl(Context context) {
+        SharedPreferences sharedPreferences = makeSharedPreferences(context, DATA_HTTPS_URL);
+        String data = sharedPreferences.getString(DATA_HTTPS_URL, "");
+        return data;
+    }
+
+    /**
+     * 创建共享句柄
+     *
+     * @param context
+     * @param tag
+     * @return
+     */
+    public static SharedPreferences makeSharedPreferences(Context context, String tag) {
+        return context.getSharedPreferences(tag, MODE_PRIVATE);
+    }
+}

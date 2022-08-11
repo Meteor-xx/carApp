@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/nav_line"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/px1dp"
+    android:alpha="0.6"
+    android:background="@color/color_24272c">
+
+</TextView>

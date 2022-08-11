@@ -1,0 +1,18 @@
+package download.coreprogress;
+
+import java.io.File;
+
+import download.Logger;
+
+/**
+ * Created by liman on 2018/4/12.
+ * Description:
+ */
+
+public interface DownloadStateCallback {
+    public void onUIProgressStart(long totalBytes);
+
+    public void onUIProgressChanged(int progress);
+
+    public void onUIProgressFinish();
+}

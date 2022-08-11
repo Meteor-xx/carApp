@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/color_303433"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/px24dp"
+    android:paddingTop="@dimen/px20dp"
+    android:paddingRight="@dimen/px40dp"
+    android:paddingBottom="@dimen/px20dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/px50sp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/px36sp"
+            android:textColor="@color/color_bbbbbb"
+            android:text="告警时间"
+            android:id="@+id/alarm_time">
+        </TextView>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+
+        <ImageView
+            android:layout_width="@dimen/px36sp"
+            android:layout_height="12dp"
+            android:layout_gravity="center_vertical"
+            android:src="@mipmap/trails_end"
+            android:id="@+id/new_alarm"
+            android:visibility="invisible"></ImageView>
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="@color/color_green"
+            app:cardCornerRadius="@dimen/px15dp"
+            android:id="@+id/alarm_Card"
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/px18sp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/px44sp"
+                    android:text="告警名称"
+                    android:id="@+id/alarm_name"
+                    android:textColor="@color/color_303433">
+                </TextView>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/px40sp"
+                    android:textColor="@color/color_303433"
+                    android:layout_marginTop="@dimen/px18sp"
+                    android:id="@+id/alarm_address"
+                    android:text="告警位置">
+                </TextView>
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+
+
+</LinearLayout>

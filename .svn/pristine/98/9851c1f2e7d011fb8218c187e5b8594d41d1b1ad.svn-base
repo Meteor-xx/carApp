@@ -1,0 +1,29 @@
+package yunkeiot.com.carapp.entity.Data;
+
+public class BaseEntity {
+    private int state;
+    private String message;
+
+    public boolean isSuccesses() {
+        if (0 == state) {
+            return true;
+        }
+        return false;
+    }
+
+    public int getCode() {
+        return state;
+    }
+
+    public void setCode(int code) {
+        this.state = code;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String msg) {
+        this.message = msg;
+    }
+}

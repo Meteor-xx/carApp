@@ -1,0 +1,137 @@
+package com.http.engine;
+
+import android.util.Base64;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+import java.util.SortedMap;
+import java.util.TreeMap;
+import java.util.UUID;
+
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
+
+import download.Logger;
+
+/**
+* @Description: 签名
+* @author sunjavateam@126.com
+*/
+public class SignatureUtil {
+    @SuppressWarnings({"rawtypes"})
+    public static String createSign(Map<String, Object> parameters, String key) throws UnsupportedEncodingException {
+
+        SortedMap<String, Object> sort = new TreeMap<String, Object>(parameters);
+        StringBuffer sb = new StringBuffer();
+        Set es = sort.entrySet();// 所有参与传参的参数按照accsii排序（升序）
+        Iterator it = es.iterator();
+        while (it.hasNext()) {
+            Map.Entry entry = (Map.Entry) it.next();
+            String k = (String) entry.getKey();
+            Object v = entry.getValue();
+            if (null != v && !"".equals(v) && !"sign".equals(k) && !"key".equals(k)) {
+                sb.append(k + "=" + v + "&");
+            }
+        }
+        sb.append("key=" + key);
+//        LOGGER.info("preSign:" + sb.toString());
+        String sign = MD5Util.encrypt(URLEncoder.encode(sb.toString(), "UTF-8")).toUpperCase();
+        return sign;
+    }
+
+    public static String createSignBase64(Map<String, Object> parameters, String key) throws UnsupportedEncodingException {
+
+        SortedMap<String, Object> sort = new TreeMap<String, Object>(parameters);
+        StringBuffer sb = new StringBuffer();
+        Set es = sort.entrySet();// 所有参与传参的参数按照accsii排序（升序）
+        Iterator it = es.iterator();
+        while (it.hasNext()) {
+            Map.Entry entry = (Map.Entry) it.next();
+            String k = (String) entry.getKey();
+            Object v = entry.getValue();
+            if (null != v && !"".equals(v) && !"sign".equals(k) && !"key".equals(k) && !"service".equals(k)) {
+                sb.append(k + "=" + v + "&");
+                Logger.i("签名:",k+"=" + v);
+            }
+        }
+        sb.append("key=" + key);
+        Logger.i("签名值原:",sb.toString());
+//        String utf8 = URLEncoder.encode(sb.toString(), "UTF-8");
+        String base64 = Base64.encodeToString(sb.toString().getBytes(),Base64.DEFAULT).replace("\n","");
+        Logger.i("签名值Base64 :",base64);
+        String sign = MD5Util.encrypt(base64).toUpperCase();
+        Logger.i("签名值:",sign);
+
+        return sign;
+    }
+
+    public static String MD5(String text) {
+        MessageDigest msgDigest = null;
+        try {
+            msgDigest = MessageDigest.getInstance("MD5");
+        } catch (NoSuchAlgorithmException e) {
+            throw new IllegalStateException("System doesn't support MD5 algorithm.");
+        }
+        msgDigest.update(text.getBytes());
+        byte[] bytes = msgDigest.digest();
+        byte tb;
+        char low;
+        char high;
+        char tmpChar;
+        String md5Str = new String();
+        // System.err.println(new String(bytes));
+        for (int i = 0; i < bytes.length; i++) {
+            tb = bytes[i];
+            tmpChar = (char) ((tb >>> 4) & 0x000f);
+            if (tmpChar >= 10) {
+                high = (char) (('a' + tmpChar) - 10);
+            } else {
+                high = (char) ('0' + tmpChar);
+            }
+            md5Str += high;
+            tmpChar = (char) (tb & 0x000f);
+            if (tmpChar >= 10) {
+                low = (char) (('a' + tmpChar) - 10);
+            } else {
+                low = (char) ('0' + tmpChar);
+            }
+            md5Str += low;
+        }
+        return md5Str;
+    }
+
+    /**
+     * 生成 HMACSHA256
+     *
+     * @param data 待处理数据
+     * @param key  密钥
+     * @return 加密结果
+     * @throws Exception
+     * @throws Exception
+     */
+    public static String HMACSHA256(String data, String key) throws Exception {
+        Mac sha256_HMAC = Mac.getInstance("HmacSHA256");
+        SecretKeySpec secret_key = new SecretKeySpec(key.getBytes("UTF-8"), "HmacSHA256");
+        sha256_HMAC.init(secret_key);
+        byte[] array = sha256_HMAC.doFinal(data.getBytes("UTF-8"));
+        StringBuilder sb = new StringBuilder();
+        for (byte item : array) {
+            sb.append(Integer.toHexString((item & 0xFF) | 0x100).substring(1, 3));
+        }
+        return sb.toString().toUpperCase();
+    }
+
+    /**
+     * 获取随机字符串 Nonce Str
+     *
+     * @return String 随机字符串
+     */
+    public static String generateNonceStr() {
+        return UUID.randomUUID().toString().replaceAll("-", "").substring(0, 32);
+    }
+}

@@ -1,0 +1,47 @@
+package yunkeiot.com.carapp.common;
+
+import android.app.Activity;
+import android.content.pm.PackageManager;
+
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
+/**
+ * Created by meteor on 2019/11/23
+ */
+public class CATools {
+
+    /**
+     * 判空
+     *
+     * @param str
+     * @return
+     */
+    public static boolean isEmpty(String str) {
+        if (str == null || "".equals(str)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 权限审请
+     *
+     * @param context
+     * @param permission
+     * @param requestCode
+     * @return
+     */
+    public static boolean checkPermissionAbove23(Activity context, String permission, int requestCode) {
+        if (ContextCompat.checkSelfPermission(context, permission)
+                != PackageManager.PERMISSION_GRANTED) {
+            //申请WRITE_EXTERNAL_STORAGE权限
+            ActivityCompat.requestPermissions(context, new String[]{permission},
+                    requestCode);
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+}

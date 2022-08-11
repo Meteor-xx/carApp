@@ -1,0 +1,177 @@
+package yunkeiot.com.carapp.entity;
+
+import com.http.engine.BaseEntity;
+
+import java.io.Serializable;
+
+import yunkeiot.com.carapp.common.CATools;
+
+public class CALoginEntity extends BaseEntity implements Serializable {
+    /**
+     * data : {"avatar":"","idCard":"","loginName":"","name":"","openId":"","phone":"15019292173","sessionKey":"","token":"34DFF289CF994D2F5F0297697667B66C3A679F081AC0CA13B09FE4EA75241B12","unionId":"","userId":13}
+     */
+
+    private UserLoginData data;
+
+    public UserLoginData getData() {
+        return data;
+    }
+
+    public void setData(UserLoginData data) {
+        this.data = data;
+    }
+
+    public static class UserLoginData implements Serializable{
+        /**
+         * avatar :
+         * idCard :
+         * loginName :
+         * name :
+         * openId :
+         * phone : 15019292173
+         * sessionKey :
+         * token : 34DFF289CF994D2F5F0297697667B66C3A679F081AC0CA13B09FE4EA75241B12
+         * unionId :
+         * userId : 13
+         */
+
+        private String avatar;
+        private String idCard;
+        private String loginName;
+        private String name;
+        private String openId;
+        private String phone;
+        private String sessionKey;
+        private String token;
+        private String unionId;
+        private String userId;
+        private int isReal;
+        private String nickname;
+        private String userNo;
+        private int hashPassword;
+        private int type;
+
+        public int getType() {
+            return type;
+        }
+
+        public void setType(int type) {
+            this.type = type;
+        }
+
+        public int getHashPassword() {
+            return hashPassword;
+        }
+
+        public void setHashPassword(int hashPassword) {
+            this.hashPassword = hashPassword;
+        }
+
+        public String getUserNo() {
+            return userNo;
+        }
+
+        public void setUserNo(String userNo) {
+            this.userNo = userNo;
+        }
+
+        public String getNickname() {
+            if(CATools.isEmpty(nickname)){
+                return name;
+            }
+            return nickname;
+        }
+
+        public void setNickname(String nickname) {
+            this.nickname = nickname;
+        }
+
+        public int getIsReal() {
+            return isReal;
+        }
+
+        public void setIsReal(int isReal) {
+            this.isReal = isReal;
+        }
+
+        public String getAvatar() {
+            return avatar;
+        }
+
+        public void setAvatar(String avatar) {
+            this.avatar = avatar;
+        }
+
+        public String getIdCard() {
+            return idCard;
+        }
+
+        public void setIdCard(String idCard) {
+            this.idCard = idCard;
+        }
+
+        public String getLoginName() {
+            return loginName;
+        }
+
+        public void setLoginName(String loginName) {
+            this.loginName = loginName;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getOpenId() {
+            return openId;
+        }
+
+        public void setOpenId(String openId) {
+            this.openId = openId;
+        }
+
+        public String getPhone() {
+            return phone;
+        }
+
+        public void setPhone(String phone) {
+            this.phone = phone;
+        }
+
+        public String getSessionKey() {
+            return sessionKey;
+        }
+
+        public void setSessionKey(String sessionKey) {
+            this.sessionKey = sessionKey;
+        }
+
+        public String getToken() {
+            return token;
+        }
+
+        public void setToken(String token) {
+            this.token = token;
+        }
+
+        public String getUnionId() {
+            return unionId;
+        }
+
+        public void setUnionId(String unionId) {
+            this.unionId = unionId;
+        }
+
+        public String getUserId() {
+            return userId;
+        }
+
+        public void setUserId(String userId) {
+            this.userId = userId;
+        }
+    }
+}

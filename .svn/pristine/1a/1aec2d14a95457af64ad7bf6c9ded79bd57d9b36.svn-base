@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <include layout="@layout/activity_nav_layout"/>
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/drawer_layout">
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/carInfo_frame"
+            android:background="@color/color_24272c">
+            <FrameLayout
+                android:id="@+id/empty_frame"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/color_24272c"
+                android:visibility="gone">
+                <include layout="@layout/empty_view" />
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/px80dp"
+                    android:layout_gravity="bottom"
+                    android:layout_marginLeft="@dimen/px160dp"
+                    android:layout_marginRight="@dimen/px160dp"
+                    android:layout_marginBottom="@dimen/px30dp"
+                    android:background="@drawable/shape_radius_button"
+                    android:onClick="addBikes"
+                    android:text="绑定车辆"
+                    android:textColor="@color/color_white"
+                    android:textSize="@dimen/px32sp" />
+            </FrameLayout>
+            <LinearLayout
+                android:id="@+id/group_frame"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/color_24272c"
+                android:orientation="vertical">
+                <ImageButton
+                    android:layout_margin="@dimen/px15dp"
+                    android:layout_width="@dimen/px80dp"
+                    android:layout_height="@dimen/px80dp"
+                    android:src="@mipmap/car_driving"
+                    android:id="@+id/toolbar">
+                </ImageButton>
+                <androidx.viewpager.widget.ViewPager
+                    android:id="@+id/contentViewPager"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:fitsSystemWindows="true" />
+            </LinearLayout>
+        </FrameLayout>
+        <ListView
+            android:id="@+id/left_drawer"
+            android:layout_width="@dimen/px320dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="0dp"
+            >
+        </ListView>
+    </androidx.drawerlayout.widget.DrawerLayout>
+</LinearLayout>

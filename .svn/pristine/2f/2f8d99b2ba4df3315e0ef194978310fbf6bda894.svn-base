@@ -1,0 +1,13 @@
+package yunkeiot.com.carapp.http.engine;
+
+/**
+ * Created by meteor on 2020/1/15
+ */
+public class CAMethods {
+    /**
+     *  登录
+     */
+    public static String METHOD_USER_LOGIN = "admin/login";
+
+    public static String METHOD_NAME_PWD_LOGIN = "admin/login";
+}

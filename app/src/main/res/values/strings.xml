@@ -1,0 +1,84 @@
+<resources>
+    <string name="app_name">云驾智联</string>
+
+    <string name="common_numbers">1234567890</string>
+    <string name="common_numbers_tm">1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz</string>
+
+    <string name="dialog_waiting">请稍后...</string>
+    <string name="dialog_login">正在登录...</string>
+
+    <string name="login_mobile_hide">请输入手机号</string>
+    <string name="login_pwd_hide">请输入密码</string>
+    <string name="login_get_code">获取验证码</string>
+    <string name="login_mobile_code_hide">请输入验证码</string>
+    <string name="login_button_str">登录</string>
+
+    <string name="nav_home_">首页</string>
+    <string name="nav_choose_car">选车</string>
+    <string name="nav_location_">车辆位置</string>
+    <string name="nav_userinfo_">账户设置</string>
+    <string name="nav_my_cars">我的车辆</string>
+
+    <string name="main_nav_rating">排行榜</string>
+    <string name="main_nav_trajectory">车辆行程</string>
+    <string name="main_nav_driver">驾驶行为</string>
+    <string name="main_nav_warning">车辆告警</string>
+    <string name="main_nav_peccancy">违章</string>
+    <string name="main_nav_report">统计报表</string>
+    <string name="main_tower_default">设备在线</string>
+    <string name="main_locate_default">GPS在线</string>
+    <string name="main_miles_default">0KM</string>
+    <string name="main_waste_default">0L/100KM</string>
+
+
+    <string name="nav_fuc_trails">车辆行程</string>
+    <string name="nav_fuc_alarms">告警信息</string>
+
+    <string name="xlistview_header_hint_normal">下拉刷新</string>
+    <string name="xlistview_header_hint_ready">下拉刷新</string>
+    <string name="xlistview_header_hint_loading">加载中...</string>
+    <string name="xlistview_header_last_time">更新时间：</string>
+    <string name="xlistview_footer_hint_normal">上拉加载更多</string>
+    <string name="xlistview_footer_hint_ready">加载更多</string>
+
+    <string name="Log_L_F">Log_LocationFragment</string>
+
+    <string name="cars_empty">当前还没绑定车辆</string>
+
+    <string name="cars_empty_text">页面没有数据了</string>
+    <string name="cars_not_online">当前无在线车辆</string>
+
+    <string name="cars_bind_name">车名称:</string>
+    <string name="cars_bind_number">车牌号:</string>
+    <string name="cars_bind_plat">车架号:</string>
+    <string name="cars_bind_bland">车辆品牌:</string>
+    <string name="cars_bind_model">车辆型号:</string>
+    <string name="cars_bind_imei">设备ID:</string>
+    <string name="cars_bind_date">绑定日期:</string>
+    <string name="cars_bind_color">车辆颜色:</string>
+
+    <string name="cars_bind_name_hide">请输入名称</string>
+    <string name="cars_bind_number_hide">请输入车牌号</string>
+    <string name="cars_bind_plat_hide">请输入车架号</string>
+    <string name="cars_bind_bland_hide">请选择品牌</string>
+    <string name="cars_bind_model_hide">请选择车型</string>
+    <string name="cars_bind_date_hide">请选择日期</string>
+    <string name="cars_bind_imei_hide">请输入设备id</string>
+    <string name="cars_bind_color_hide">请选择颜色</string>
+    <string name="cars_bind_picture_hide">请选择图片</string>
+    <string name="cars_bind_brand">车辆品牌</string>
+
+    <string name="cars_bind_hide">单行输入</string>
+    <string name="cars_add_image">车辆图片</string>
+    <string name="cars_add_image2">车辆图片:</string>
+    <string name="cars_add_color_red">红</string>
+    <string name="cars_add_color_black">黑</string>
+    <string name="cars_add_color_blue">蓝</string>
+    <string name="cars_add_color_green">绿</string>
+    <string name="cars_add_color_">颜色</string>
+    <string name="cars_add_color__r">%s色</string>
+    <string name="cars_unbind">解除绑定</string>
+
+    <string name="drawer_open">Drawer open</string>
+    <string name="drawer_close">Drawer close</string>
+</resources>

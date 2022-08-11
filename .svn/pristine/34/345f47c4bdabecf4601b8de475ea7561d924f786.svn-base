@@ -1,0 +1,12 @@
+package yunkeiot.com.carapp.entity;
+
+import java.io.Serializable;
+import java.util.List;
+
+import yunkeiot.com.carapp.entity.Data.BaseEntity;
+
+public class CAMyCarsEntity extends BaseEntity {
+    public static class CarBean implements Serializable{
+
+    }
+}

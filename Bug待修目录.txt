@@ -1,0 +1,2 @@
+1.HomeMainFragment + HomeFragment渲染两次
+2.baidu地图进入即开启，控制定位开启关闭

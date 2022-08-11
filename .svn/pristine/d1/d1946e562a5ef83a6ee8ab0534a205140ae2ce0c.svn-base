@@ -1,0 +1,49 @@
+package com.http.engine;
+
+/**
+ * 错误码列表
+ * Created by Administrator on 2018/2/3.
+ */
+
+public class ErrorCode {
+    public static final int ERROR_CODE_0 = 0;//请求成功
+    public static final int ERROR_CODE_1 = 1;
+    public static final int ERROR_CODE_ERROR = -1;
+    public static final int ERROR_CODE_1030066 = 1030066;//手机账号可绑定
+    public static final int ERROR_CODE_1030048 = 1030048;//手机账号不可绑定
+    public static final int ERROR_CODE_1020006 = 1020006;//没有商品
+    public static final int ERROR_CODE_1030022 = 1030022;//余额不足
+    public static final int ERROR_CODE_1030043 = 1030043;//没有权限操作，请登录
+    public static final int ERROR_CODE_1020017 = 1020017;//APP版本不可用
+    public static final int ERROR_CODE_1140001 = 1140001;//权限不足，请先升级用户
+    public static final int ERROR_CODE_1140002 = 1140002;//直播数已达最高，请先删除
+    public static final int ERROR_CODE_1140003 = 1140003;//存在正在直播
+    public static final int ERROR_CODE_1030042 = 1030042;//用户不存在
+    public static final int ERROR_CODE_1020008 = 1020008;//数据不存在
+    public static final int ERROR_CODE_1030045 = 1030045;//数据不存在
+    public static final int ERROR_CODE_1030005 = 1030005;//手机号未绑定
+    public static final int ERROR_CODE_1160405 = 1160405;//未确认绑定上级
+
+    public static final int ERROR_CODE_1030027 = 1030027;//现金余额不足
+    public static final int ERROR_CODE_1030029 = 1030029;//互动余额不足
+    public static final int ERROR_CODE_1100023 = 1100023;//余额不足
+    public static final int ERROR_CODE_1160303 = 1160303;//牛豆不足
+    public static final int ERROR_CODE_1160333 = 1160333;//播币不足
+    public static final int ERROR_CODE_1160001 = 1160001;//不能赠送自己
+    public static final int ERROR_CODE_1160104 = 1160104;//地址不存在
+    public static final int ERROR_CODE_1100034 = 1100034;//该商品超过最大限购数量,有待付款订单
+    public static final int ERROR_CODE_1100035 = 1100035;//该商品超过最大限购数量,存在于购物车
+    public static final int ERROR_CODE_1100008 = 1100008;//该商品超过最大限购数量
+    public static final int ERROR_CODE_1100013 = 1100013;//此商品库存不足
+    public static final int ERROR_CODE_1400003 = 1400003;//当前拼单已结束
+
+
+    public static final int ERROR_CODE_FILM_NOT_EXIST = 1140004;
+    public static final int ERROR_CODE_BEEN_SHUT_UP = 1140005;//用户被禁言
+    public static final int ERROR_CODE_1010020 = 1010020;//微信支付宝网页支付后待查支付状态
+
+
+    //被挤下线错误码
+    public static final int ERROR_CODE_TOKEN_ERROR1 = -101;
+    public static final int ERROR_CODE_TOKEN_ERROR2 = -101;
+}

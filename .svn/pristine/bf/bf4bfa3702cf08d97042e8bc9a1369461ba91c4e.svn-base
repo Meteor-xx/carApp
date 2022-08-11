@@ -1,0 +1,83 @@
+package yunkeiot.com.carapp.ui.funcMenu;
+import android.os.Bundle;
+import android.widget.ListView;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import yunkeiot.com.carapp.R;
+import yunkeiot.com.carapp.entity.Data.CATrailsEntity;
+import yunkeiot.com.carapp.ui.adapter.CATrailsListAdapter;
+import yunkeiot.com.carapp.ui.base.CABaseActivity;
+import yunkeiot.com.carapp.ui.view.XList.XListView;
+
+public class CATrailsActivity extends CABaseActivity {
+    private ListView listView;
+    private CATrailsListAdapter listAdapter;
+    private String date = null;
+    private CATrailsEntity.DataBean dataBean;
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_trails_layout);
+    }
+    @Override
+    public void setUpViews() {
+        setNavTitle(getString(R.string.nav_fuc_trails));
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            date = bundle.getString("date", null);
+        }
+        listView = (ListView) findViewById(R.id.listView);
+        listView.setAdapter(listAdapter = new CATrailsListAdapter(this));
+    }
+
+    @Override
+    public void setUpData() {
+        getData(PAGE_REFRESH, 1);
+    }
+
+    private void getData(final int type,int page){
+        CATrailsEntity.DataBean.DataItem dataItem1,dataItem2;
+        dataItem1 = new CATrailsEntity.DataBean.DataItem();
+        dataItem2 = new CATrailsEntity.DataBean.DataItem();
+        {
+            dataItem1.setTravelId("1");
+            dataItem1.setAvgSpeed("11km/h");
+            dataItem1.setDeviceId("1");
+            dataItem1.setDriverTime("00:25:14");
+            dataItem1.setStartAddress("河南省郑州市中原区");
+            dataItem1.setEndAddress("河南省郑州市金水区");
+            dataItem1.setMaxSpeed("11km/h");
+            dataItem1.setPlateNumber("111");
+            dataItem1.setTravelEndTime("11");
+            dataItem1.setTravelStartTime("2019.10.27 15:08:10");
+            dataItem1.setMileage("11km");
+        }
+        {
+            dataItem2.setTravelId("2");
+            dataItem2.setAvgSpeed("22km/h");
+            dataItem2.setDeviceId("2");
+            dataItem2.setDriverTime("00:25:14");
+            dataItem2.setStartAddress("河南省郑州市中原区");
+            dataItem2.setEndAddress("河南省郑州市金水区");
+            dataItem2.setMaxSpeed("22km/h");
+            dataItem2.setPlateNumber("222");
+            dataItem2.setTravelEndTime("22");
+            dataItem2.setTravelStartTime("2019.10.27 15:08:10");
+            dataItem2.setMileage("22km");
+        }
+        List<CATrailsEntity.DataBean.DataItem> list = new ArrayList<>();
+        list.add(dataItem1);
+        list.add(dataItem2);
+        listAdapter.setData(list);
+    }
+
+
+}

@@ -1,0 +1,17 @@
+package yunkeiot.com.carapp.ui.funcMenu;
+
+import yunkeiot.com.carapp.ui.base.CABaseActivity;
+
+public class CATrailsActivity extends CABaseActivity {
+
+
+    @Override
+    public void setUpViews() {
+
+    }
+
+    @Override
+    public void setUpData() {
+
+    }
+}

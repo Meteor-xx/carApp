@@ -1,0 +1,14 @@
+package com.http.engine;
+
+/**
+ * Created by liman on 2018/4/16.
+ * Description:
+ */
+
+public interface HttpUserInvalidListener {
+    void onHttpUserInvalidListener(final BaseEntity entity, final String result);
+
+    void onHttpBindPhoneListener(final BaseEntity entity, final String result);
+
+    void onCreditRunningLow(final BaseEntity entity, final String result);
+}

@@ -1,0 +1,46 @@
+package yunkeiot.com.carapp.common;
+
+import android.content.SharedPreferences;
+
+import com.google.gson.Gson;
+
+import yunkeiot.com.carapp.application.CAApplication;
+import yunkeiot.com.carapp.entity.CALoginEntity;
+
+import static android.content.Context.MODE_PRIVATE;
+
+/**
+ * Created by meteor on 2019/11/23
+ * Description:
+ */
+public class CAShareData {
+    private static final String USER_LOGIN_DATA = "USER_LOGIN_DATA";
+    private static final String USER_HAS_GUIDE = "USER_HAS_GUIDE";
+
+    private static final String USER_FRIENDS_ADD = "USER_FRIENDS_ADD";
+
+
+    private static final String DEFAULT_CAR = "DEFAULT_CAR";
+    private static final String USER_LOGIN_MOBILE = "USER_LOGIN_MOBILE";
+    private static final String USER_LOGIN_PWD = "USER_LOGIN_PWD";
+
+    public static SharedPreferences makeSharedPreferences(String tag) {
+        return CAApplication.getApplication().getSharedPreferences(tag, MODE_PRIVATE);
+    }
+
+
+    /**
+     * 获取用户登录数据
+     *
+     * @return
+     */
+    public static CALoginEntity.UserLoginData getUserLoginData() {
+        SharedPreferences sp = makeSharedPreferences(USER_LOGIN_DATA);
+        String data = sp.getString(USER_LOGIN_DATA, "");
+        if (data == null || "".equals(data)) {
+            return null;
+        } else {
+            return new Gson().fromJson(data, CALoginEntity.UserLoginData.class);
+        }
+    }
+}
